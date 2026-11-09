@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#100e0b">
+<title>SecretMonkex | Discord Bot</title>
+
+<style>
+:root {
+  --bg:#100e0b;
+  --panel:#1b1712;
+  --line:#3b3024;
+  --text:#f5efe6;
+  --muted:#b8aa99;
+  --green:#29f51f;
+}
+
+* {
+  box-sizing:border-box;
+}
+
+html { scroll-behavior:smooth; }
+
+body {
+  margin:0;
+  background:
+    radial-gradient(ellipse at 90% 8%,#25391b 0,transparent 30%),
+    radial-gradient(ellipse at 0 38%,#442a19 0,transparent 30%),
+    var(--bg);
+  color:var(--text);
+  font-family:Arial, sans-serif;
+}
+
+a {
+  text-decoration:none;
+  color:inherit;
+}
+
+.wrap {
+  max-width:1120px;
+  margin:auto;
+  padding:22px;
+}
+
+nav {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:5px 0 28px;
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font-weight:850;
+}
+
+.brand img {
+  width:43px;
+  height:43px;
+  object-fit:cover;
+  border-radius:14px;
+}
+
+.brand small {
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:1.7px;
+  text-transform:uppercase;
+}
+
+.navlinks {
+  display:flex;
+  gap:23px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.navlinks a:hover {
+  color:var(--green);
+}
+
+.btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px 17px;
+  border-radius:12px;
+  border:1px solid #ffffff24;
+  background:#282118;
+  color:var(--text);
+  font-weight:750;
+  font-size:13px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.btn:hover {
+  transform:translateY(-2px);
+}
+
+.btn.main {
+  background:var(--green);
+  color:#10130d;
+  border-color:var(--green);
+}
+
+.hero {
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:28px;
+  align-items:center;
+  padding:44px 0 58px;
+}
+
+.tag {
+  color:#a7ff8b;
+  text-transform:uppercase;
+  letter-spacing:2.4px;
+  font-size:11px;
+  font-weight:850;
+}
+
+.hero h1 {
+  font-size:clamp(43px,7vw,78px);
+  line-height:.98;
+  letter-spacing:-4px;
+  margin:16px 0;
+}
+
+.hero h1 span {
+  color:var(--green);
+}
+
+.hero p {
+  max-width:570px;
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.8;
+}
+
+.actions {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:25px;
+}
+
+.art {
+  background:linear-gradient(145deg,#3b4b25,#211b14 55%,#684126);
+  border:1px solid #ffffff24;
+  border-radius:27px;
+  padding:17px;
+}
+
+.art img {
+  display:block;
+  width:100%;
+  aspect-ratio:1;
+  object-fit:cover;
+  border-radius:19px;
+}
+
+.artfoot {
+  display:flex;
+  justify-content:space-between;
+  padding:14px 3px 2px;
+  font-weight:800;
+}
+
+.artfoot span {
+  font-size:11px;
+  color:#a7ff8b;
+}
+
+section {
+  padding:27px 0 39px;
+}
+
+.sectiontop {
+  margin-bottom:17px;
+}
+
+.sectiontop h2 {
+  font-size:26px;
+  margin:7px 0;
+}
+
+.sectiontop p {
+  color:var(--muted);
+  font-size:13px;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
+}
+
+.card {
+  padding:18px;
+  background:linear-gradient(145deg,#211b15,#17130f);
+  border:1px solid var(--line);
+  border-radius:17px;
+}
+
+.card .symbol {
+  width:35px;
+  height:35px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  background:#29f51f18;
+  color:#a7ff8b;
+  font-weight:900;
+  margin-bottom:13px;
+}
+
+.card h3 {
+  font-size:15px;
+  margin:0 0 7px;
+}
+
+.card p {
+  font-size:13px;
+  line-height:1.7;
+  color:var(--muted);
+  margin:0;
+}
+
+.cmds {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+}
+
+.cmd {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:14px;
+  background:#1b1712;
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+
+.cmd code {
+  font-size:13px;
+  color:#a7ff8b;
+  font-weight:750;
+}
+
+.cmd span {
+  font-size:12px;
+  color:var(--muted);
+  text-align:right;
+}
+
+.invitebox {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:23px;
+  background:linear-gradient(115deg,#28391d,#211b14 70%);
+  border:1px solid #526a3b;
+  border-radius:19px;
+}
+
+.invitebox p {
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+}
+
+footer {
+  border-top:1px solid var(--line);
+  margin-top:23px;
+  padding:22px 0 10px;
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:11px;
+}
+
+@media(max-width:720px) {
+  .wrap {padding:16px;}
+  .navlinks {display:none;}
+  .hero {grid-template-columns:1fr;padding:28px 0 38px;}
+  .hero h1 {letter-spacing:-2.5px;}
+  .grid {grid-template-columns:1fr;}
+  .cmds {grid-template-columns:1fr;}
+  .invitebox {align-items:flex-start;flex-direction:column;}
+  footer {flex-direction:column;}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<nav>
+  <a class="brand" href="#top">
+    <img class="bot-img" src="" alt="SecretMonkex">
+    <span>
+      SecretMonkex
+      <small>discord bot</small>
+    </span>
+  </a>
+
+  <div class="navlinks">
+    <a href="#about">about</a>
+    <a href="#commands">commands</a>
+    <a href="#invite">invite</a>
+  </div>
+
+  <a class="btn main invite-link" href="#invite">invite bot</a>
+</nav>
+
+<main id="top">
+
+<section class="hero">
+  <div>
+    <div class="tag">the bot for your server</div>
+
+    <h1>
+      yo, it's<br>
+      <span>SecretMonkex.</span>
+    </h1>
+
+    <p>
+      yo, welcome to SecretMonkex.
+
+      if ur here, you probably found my bot.
+      i made it for discord servers and it comes
+      wit a bunch of commands to try out.
+
+      you can mess around wit ur friends, use
+      random commands and see what else it can do.
+
+      im still working on it, so more stuff might
+      come later.
+    </p>
+
+    <div class="actions">
+      <a class="btn main invite-link" href="#invite">invite bot</a>
+      <a class="btn" href="#commands">see commands</a>
+    </div>
+  </div>
+
+  <div class="art">
+    <img class="bot-img" src="" alt="SecretMonkex">
+    <div class="artfoot">
+      SecretMonkex
+      <span>BOT PROFILE</span>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="sectiontop">
+    <div class="tag">about</div>
+    <h2>so, what is SecretMonkex?</h2>
+    <p>here's a little bit about the bot.</p>
+  </div>
+
+  <div class="grid">
+    <article class="card">
+      <div class="symbol">01</div>
+      <h3>the bot</h3>
+      <p>
+        SecretMonkex is my own discord bot.
+        i wanted to make something with a bunch
+        of different commands instead of having
+        loads of separate bots in one server.
+      </p>
+    </article>
+
+    <article class="card">
+      <div class="symbol">02</div>
+      <h3>random commands</h3>
+      <p>
+        there's different things you can do.
+        from fake hacking to punching someone
+        or making the bot say whatever you want.
+      </p>
+    </article>
+
+    <article class="card">
+      <div class="symbol">03</div>
+      <h3>updates</h3>
+      <p>
+        im still working on the bot and might
+        add more commands later. so this isn't
+        necessarily everything that's coming.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section id="commands">
+  <div class="sectiontop">
+    <div class="tag">commands</div>
+    <h2>all the commands</h2>
+    <p>
+      here's what you can currently use.
+      just type the command in discord and follow the options.
+    </p>
+  </div>
+
+  <div class="cmds">
+    <div class="cmd">
+      <code>/shoot</code>
+      <span>shoot a user in a fake interaction.</span>
+    </div>
+
+    <div class="cmd">
+      <code>/missile</code>
+      <span>send a fake missile to someone.</span>
+    </div>
+
+    <div class="cmd">
+      <code>/hack</code>
+      <span>fake hacking screen. it doesn't actually hack anything.</span>
+    </div>
+
+    <div class="cmd">
+      <code>/deathnote</code>
+      <span>use the deathnote command on a user.</span>
+    </div>
+
+    <div class="cmd">
+      <code>/punch</code>
+      <span>punch someone in the server.</span>
+    </div>
+
+    <div class="cmd">
+      <code>/how-gay</code>
+      <span>get a random how-gay score.</span>
+    </div>
+
+    <div class="cmd">
+      <code>/say</code>
+      <span>make the bot say whatever you type.</span>
+    </div>
+
+    <div class="cmd">
+      <code>/count</code>
+      <span>use the server counting command.</span>
+    </div>
+
+    <div class="cmd">
+      <code>/echo</code>
+      <span>make the bot repeat your message.</span>
+    </div>
+  </div>
+</section>
+
+<section id="invite">
+  <div class="invitebox">
+    <div>
+      <div class="tag">wanna add it?</div>
+      <h3>add SecretMonkex to ur server.</h3>
+      <p>
+        click the invite button, pick ur server and
+        approve it in discord. then ur good to go.
+      </p>
+    </div>
+
+    <a class="btn main invite-link" href="#invite">
+      invite SecretMonkex
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span>© <span id="year"></span> SecretMonkex</span>
+  <span>my discord bot.</span>
+</footer>
+
+</div>
+
+<script>
+/*
+  PUT YOUR DISCORD DETAILS HERE.
+  These are in the code, not on the dashboard.
+*/
+
+const APPLICATION_ID = "1568929626221187172";
+const INSTALL_LINK = "https://discord.com/oauth2/authorize?client_id=1568929626221187172";
+const BOT_IMAGE = "https://cdn.discordapp.com/attachments/1568953082484625499/1569453027725672478/Untitled_design.png?ex=6af38288&is=6af23108&hm=c12a8f404348c972c9e999fdd6a11088f07e087ba10431d18c0f3dee003cb030&";
+
+function getInviteLink() {
+
+  if (
+    INSTALL_LINK &&
+    !INSTALL_LINK.includes("PASTE_YOUR_")
+  ) {
+    return INSTALL_LINK;
+  }
+
+  if (
+    APPLICATION_ID &&
+    !APPLICATION_ID.includes("PASTE_YOUR_")
+  ) {
+    return "https://discord.com/oauth2/authorize?client_id="
+      + encodeURIComponent(APPLICATION_ID)
+      + "&scope=bot%20applications.commands&permissions=0";
+  }
+
+  return "";
+}
+
+const inviteURL = getInviteLink();
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+// Set bot image dynamically across elements with the class 'bot-img'
+if (BOT_IMAGE && !BOT_IMAGE.includes("PASTE_")) {
+  document.querySelectorAll(".bot-img").forEach(img => {
+    img.src = BOT_IMAGE;
+  });
+}
+
+document.querySelectorAll(".invite-link").forEach(link => {
+
+  if (inviteURL) {
+    link.href = inviteURL;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+  } else {
+    link.addEventListener("click", event => {
+      event.preventDefault();
+      alert("add your application ID and install link in the code first.");
+    });
+  }
+
+});
+</script>
+
+</body>
+</html>
